@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b3d">
+<title>مَن | فضای شخصی من</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+:root{
+  --navy:#071b3d;--blue:#1769ff;--cyan:#48c6ff;--ink:#10264a;
+  --muted:#7185a7;--line:#e2ebf8;--white:#fff;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+ margin:0;min-height:100vh;font-family:'Vazirmatn',Tahoma,sans-serif;color:var(--ink);
+ background:#f3f7ff;overflow-x:hidden;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-1;background:
+ radial-gradient(ellipse at 8% 12%,rgba(67,151,255,.18),transparent 32%),
+ radial-gradient(ellipse at 92% 85%,rgba(37,91,224,.13),transparent 35%),
+ linear-gradient(145deg,#f8fbff,#edf4ff 55%,#f8fbff)}
+.orb{position:absolute;border-radius:50%;filter:blur(1px);border:1px solid rgba(44,119,245,.12)}
+.orb.one{width:370px;height:370px;top:-190px;right:-100px;background:rgba(64,146,255,.06)}
+.orb.two{width:280px;height:280px;bottom:-150px;left:-70px;background:rgba(64,146,255,.07)}
+.screen{min-height:100vh;display:grid;place-items:center;padding:26px 16px}
+.auth-wrap{width:min(100%,440px)}
+.brand{text-align:center;margin-bottom:22px}
+.brand-mark{
+ width:66px;height:66px;margin:0 auto 12px;border-radius:22px;display:grid;place-items:center;
+ color:white;font-size:29px;font-weight:900;background:linear-gradient(145deg,#57baff,#1555e8);
+ box-shadow:0 13px 30px rgba(30,104,239,.3);position:relative
+}
+.brand-mark:after{content:"";position:absolute;inset:5px;border:1px solid #ffffff70;border-radius:17px}
+.brand h1{font-size:30px;letter-spacing:-1px;margin:0;color:#102b57;font-weight:900}
+.brand p{margin:5px 0;color:#8092af;font-size:13px}
+.auth-card{
+ background:rgba(255,255,255,.84);border:1px solid #ffffff; border-radius:28px;
+ padding:30px;box-shadow:0 24px 70px rgba(27,72,142,.13),inset 0 1px #fff;
+ backdrop-filter:blur(18px)
+}
+.eyebrow{font-size:11px;color:#2874e9;font-weight:800;letter-spacing:1px}
+.auth-card h2{font-size:22px;margin:7px 0 5px;color:#102b57}
+.intro{font-size:13px;color:#8292ad;margin:0 0 24px;line-height:1.9}
+.field{margin:16px 0}
+.field label{display:block;font-size:12px;font-weight:700;color:#395477;margin-bottom:8px}
+.input-shell{position:relative}
+.input-shell .ico{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:17px;color:#7d9bc6}
+.input-shell input{
+ width:100%;height:53px;border:1px solid #dce7f6;border-radius:15px;background:#f8fbff;
+ outline:none;padding:0 45px 0 14px;color:#17345f;transition:.2s
+}
+.input-shell input:focus{border-color:#4b91ff;box-shadow:0 0 0 4px #3c8bff18;background:#fff}
+.input-shell input::placeholder{color:#a8b6ca}
+.primary{
+ width:100%;height:55px;border:0;border-radius:16px;color:white;font-weight:800;font-size:14px;
+ background:linear-gradient(105deg,#1762ee,#329df8);box-shadow:0 12px 25px #2779ed38;
+ transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;margin-top:9px
+}
+.primary:hover{transform:translateY(-2px);box-shadow:0 16px 30px #2779ed48}
+.primary:active{transform:scale(.99)}
+.auth-note{font-size:11px;color:#9aa9bf;text-align:center;line-height:1.9;margin:17px 0 0}
+.secure{display:flex;align-items:center;justify-content:center;gap:7px;color:#7890b1;font-size:11px;margin-top:18px}
+.secure span{color:#1c9c78}
+.error{font-size:12px;color:#d33b59;margin-top:9px;min-height:18px}
+.loading-screen{position:fixed;inset:0;z-index:5;background:linear-gradient(145deg,#071b3d,#0c3672 60%,#1266c7);display:grid;place-items:center;color:white}
+.loader-card{text-align:center;padding:35px}
+.loader-logo{width:82px;height:82px;border-radius:27px;background:#ffffff16;border:1px solid #ffffff35;display:grid;place-items:center;margin:0 auto 25px;font-size:34px;box-shadow:0 15px 45px #0002}
+.spinner{width:48px;height:48px;border-radius:50%;border:3px solid #ffffff35;border-top-color:#65d4ff;animation:spin .8s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-screen h2{font-size:21px;margin:0 0 8px}
+.loading-screen p{font-size:12px;color:#b7d6ff;margin:0}
+.progress{height:4px;width:190px;background:#ffffff24;border-radius:9px;margin:24px auto 0;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:#67d7ff;animation:progress 5s linear forwards}
+@keyframes progress{to{width:100%}}
+/* profile */
+.app{width:min(100%,1000px);margin:auto;padding:22px 18px 45px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:12px 4px 22px}
+.mini-brand{display:flex;align-items:center;gap:11px;font-weight:900;color:#16345f;font-size:19px}
+.mini-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:white;background:linear-gradient(140deg,#55bfff,#1557e9);box-shadow:0 8px 20px #2779ed30}
+.status{font-size:11px;color:#23886e;background:#e6f8f1;border:1px solid #c9f0e2;border-radius:30px;padding:8px 12px}
+.hero{
+ position:relative;overflow:hidden;border-radius:30px;padding:34px 34px 30px;color:white;
+ background:linear-gradient(115deg,#092653,#1155b4 68%,#258fe7);
+ box-shadow:0 20px 45px rgba(16,75,160,.2)
+}
+.hero:before,.hero:after{content:"";position:absolute;border:1px solid #ffffff20;border-radius:50%;pointer-events:none}
+.hero:before{width:330px;height:330px;left:-90px;top:-210px}
+.hero:after{width:220px;height:220px;left:70px;bottom:-175px}
+.hero-content{position:relative;z-index:1}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid #ffffff35;background:#ffffff13;border-radius:30px;padding:7px 12px;font-size:11px;color:#d6ebff}
+.hero h1{font-size:clamp(29px,5vw,43px);margin:17px 0 7px;font-weight:900;letter-spacing:-1px}
+.hero p{margin:0;color:#d0e5ff;font-size:13px}
+.hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-top:27px}
+.hero-caption{font-size:11px;color:#c4ddff}
+.hero-stamp{font-size:12px;font-weight:700;border-radius:12px;background:#ffffff16;border:1px solid #ffffff2c;padding:9px 13px}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 2px 15px}
+.section-head h2{font-size:18px;margin:0;color:#15345f}
+.section-head p{font-size:11px;color:#8b9db7;margin:4px 0 0}
+.section-kicker{font-size:10px;color:#3b82e8;font-weight:800}
+.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.info-card{
+ min-height:108px;background:rgba(255,255,255,.87);border:1px solid #e4edf9;border-radius:20px;
+ padding:18px;display:flex;align-items:center;gap:14px;box-shadow:0 7px 22px rgba(31,75,133,.045);
+ transition:transform .2s,box-shadow .2s
+}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(31,75,133,.09)}
+.info-icon{width:44px;height:44px;flex:0 0 44px;border-radius:15px;display:grid;place-items:center;font-size:19px;color:#216fe8;background:#edf5ff}
+.info-card:nth-child(2) .info-icon{background:#eef8ff;color:#1595c9}
+.info-card:nth-child(6) .info-icon{background:#fff1f4;color:#e35b80}
+.info-card:nth-child(7) .info-icon{background:#f0f0ff;color:#6c68d9}
+.info-label{font-size:11px;color:#8295b2;margin-bottom:6px}
+.info-value{font-size:17px;font-weight:800;color:#17365f}
+.info-value.small{font-size:15px}
+.bottom-note{text-align:center;color:#9aabc2;font-size:11px;margin:27px 0 0}
+
+.nav-actions{display:flex;align-items:center;gap:9px}
+.manage-btn{border:1px solid #d7e5f8;background:#fff;color:#1d5fc4;border-radius:13px;padding:9px 14px;font-size:12px;font-weight:800;box-shadow:0 5px 14px #174b8b0c}
+.manage-btn:hover{background:#edf5ff}
+.manage-panel{margin-top:18px;padding:23px;background:rgba(255,255,255,.94);border:1px solid #dce9fa;border-radius:23px;box-shadow:0 12px 30px rgba(31,75,133,.07)}
+.manage-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:7px}
+.manage-head h2{margin:0;color:#15345f;font-size:18px}
+.close-manage{border:0;border-radius:10px;background:#edf4ff;color:#286ac5;padding:8px 12px;font-weight:700}
+.manage-desc{font-size:12px;color:#8193ad;margin:0 0 18px}
+.manage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.manage-field label{display:block;font-size:11px;color:#496383;font-weight:700;margin-bottom:6px}
+.manage-field input{width:100%;height:44px;border:1px solid #dce7f6;border-radius:12px;background:#f8fbff;padding:0 12px;outline:none;color:#18375f}
+.manage-field input:focus{border-color:#4b91ff;box-shadow:0 0 0 3px #3c8bff18}
+.manage-actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+.save-btn,.reset-btn{border:0;border-radius:12px;padding:11px 17px;font-size:12px;font-weight:800}
+.save-btn{background:linear-gradient(100deg,#1762ee,#329df8);color:white}
+.reset-btn{background:#eef3fa;color:#607794}
+.manage-message{font-size:11px;color:#16835f;margin-top:10px;min-height:16px}
+@media(max-width:560px){.nav-actions{gap:6px}.status{font-size:10px;padding:7px 9px}.manage-btn{padding:8px 10px}.manage-grid{grid-template-columns:1fr}}
+
+@media(max-width:560px){
+ .auth-card{padding:25px 21px}.hero{padding:27px 23px;border-radius:25px}
+ .profile-grid{grid-template-columns:1fr}.info-card{min-height:85px;padding:15px}
+ .app{padding:12px 13px 35px}.topbar{padding-bottom:15px}
+ .hero-bottom{align-items:start;flex-direction:column}
+}
+
+.admin-gate{position:fixed;inset:0;z-index:20;background:#061a36b8;backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px}
+.admin-dialog{position:relative;width:min(100%,390px);padding:28px;border-radius:24px;background:#fff;box-shadow:0 25px 80px #061a3655;text-align:center}
+.admin-x{position:absolute;left:15px;top:12px;border:0;background:#eef4fc;border-radius:10px;width:30px;height:30px;color:#56708f;font-size:20px}
+.admin-lock{width:56px;height:56px;margin:0 auto 12px;border-radius:18px;display:grid;place-items:center;background:#edf5ff;font-size:25px}
+.admin-dialog h2{margin:0;color:#16345f;font-size:20px}
+.admin-dialog p{font-size:12px;color:#8092ad;line-height:1.8}
+.admin-dialog input{width:100%;height:48px;border:1px solid #dce7f6;border-radius:12px;padding:0 13px;outline:none;margin:9px 0}
+.admin-enter{width:100%}
+.admin-error{font-size:11px;color:#d33b59;min-height:17px}
+.accounts-panel{margin-top:18px;padding:22px;background:#fff;border:1px solid #dce9fa;border-radius:22px;box-shadow:0 12px 30px #1f4b850c}
+.accounts-panel h3{margin:0 0 6px;color:#15345f;font-size:17px}
+.accounts-help{font-size:11px;color:#8193ad;line-height:1.8;margin:0 0 13px}
+.account-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;border:1px solid #e6eef9;border-radius:13px;margin-top:8px;background:#f9fbff;font-size:12px}
+.account-phone{font-weight:800;color:#18375f;direction:ltr}
+.account-state{font-size:10px;color:#16835f;background:#e8f8f1;padding:5px 8px;border-radius:20px;white-space:nowrap}
+.empty-accounts{font-size:12px;color:#94a4bb;padding:14px 0}
+
+</style>
+</head>
+<body>
+<div class="ambient"><div class="orb one"></div><div class="orb two"></div></div>
+
+<section id="authScreen" class="screen">
+ <div class="auth-wrap">
+  <div class="brand">
+   <div class="brand-mark">م</div>
+   <h1>مَن</h1>
+   <p>فضای شخصی تو، با امضای خودت</p>
+  </div>
+  <div class="auth-card">
+   <div class="eyebrow">WELCOME TO MAN</div>
+   <h2>خوش اومدی 👋</h2>
+   <p class="intro">شماره موبایل و رمز عبورت رو وارد کن؛ حساب‌ها روی سرور مرکزی ذخیره می‌شن.</p>
+   <form id="loginForm">
+    <div class="field">
+     <label for="phone">شماره موبایل</label>
+     <div class="input-shell"><span class="ico">▣</span><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="مثلاً 09123456789" required></div>
+    </div>
+    <div class="field">
+     <label for="password">رمز عبور</label>
+     <div class="input-shell"><span class="ico">⌑</span><input id="password" type="password" autocomplete="new-password" placeholder="رمز عبورت رو وارد کن" required minlength="4"></div>
+    </div>
+    <div id="error" class="error" aria-live="polite"></div>
+    <button class="primary" type="submit">ثبت‌نام / ورود <span aria-hidden="true">←</span></button>
+   </form>
+   <p class="auth-note">شماره جدید ثبت‌نام می‌شه؛ شماره قبلی با رمز خودش وارد می‌شه.</p>
+  </div>
+  <div class="secure"><span>●</span> محیط ورود نمایشی · آماده اتصال به سرور</div>
+ </div>
+</section>
+
+<section id="loadingScreen" class="loading-screen" hidden>
+ <div class="loader-card">
+  <div class="loader-logo">م</div>
+  <div class="spinner"></div>
+  <h2>داریم فضاتو آماده می‌کنیم...</h2>
+  <p>یک لحظه صبر کن، به‌زودی وارد می‌شی</p>
+  <div class="progress"><i></i></div>
+ </div>
+</section>
+
+<main id="profileScreen" class="app" hidden>
+ <nav class="topbar">
+  <div class="mini-brand"><span class="mini-icon">م</span><span>مَن</span></div>
+  <div class="nav-actions">
+   <span class="status">● فضای شخصی فعال</span>
+   <button class="manage-btn" id="manageOpen" type="button">⚙ مدیریت</button>
+  </div>
+ </nav>
+ <section class="hero">
+  <div class="hero-content">
+   <span class="hero-tag">✦ MY PERSONAL SPACE</span>
+   <h1>این منم؛ سوشا 💙</h1>
+   <p>اینجا یه گوشه از دنیای منه؛ ساده، خاص و خودِ خودم.</p>
+   <div class="hero-bottom">
+    <span class="hero-caption">خوش اومدی به صفحه شخصی من</span>
+    <span class="hero-stamp">PROFILE · 01</span>
+   </div>
+  </div>
+ </section>
+
+ <section class="manage-panel" id="managePanel" hidden>
+  <div class="manage-head">
+   <h2>⚙ مدیریت اطلاعات</h2>
+   <button class="close-manage" id="manageClose" type="button">بستن ✕</button>
+  </div>
+  <p class="manage-desc">اطلاعات صفحه معرفی را ویرایش کن و ذخیره بزن. تغییرات در همین مرورگر نگهداری می‌شوند.</p>
+  <div class="manage-grid">
+   <div class="manage-field"><label for="editNickname">نامی که صدام می‌کنن</label><input id="editNickname" value="سوشا"></div>
+   <div class="manage-field"><label for="editRealname">اسم اصلی</label><input id="editRealname" value="آرسین"></div>
+   <div class="manage-field"><label for="editOrigin">مالِ</label><input id="editOrigin" value="ایذم"></div>
+   <div class="manage-field"><label for="editCity">الان کجام؟</label><input id="editCity" value="شیرازم"></div>
+   <div class="manage-field"><label for="editAge">سن</label><input id="editAge" value="۱۹"></div>
+   <div class="manage-field"><label for="editCrush">کراشم</label><input id="editCrush" value="رز 🌹"></div>
+   <div class="manage-field"><label for="editPartner">زنم</label><input id="editPartner" value="امیر ❤️"></div>
+  </div>
+  <div class="manage-actions">
+   <button class="save-btn" id="saveProfile" type="button">ذخیره تغییرات</button>
+   <button class="reset-btn" id="resetProfile" type="button">بازگردانی اطلاعات اولیه</button>
+  </div>
+  <div class="manage-message" id="manageMessage" aria-live="polite"></div>
+ </section>
+
+ <div class="section-head">
+  <div><h2>درباره من</h2><p>چندتا چیز که منو معرفی می‌کنه</p></div>
+  <span class="section-kicker">MY DETAILS</span>
+ </div>
+ <section class="profile-grid">
+  <article class="info-card"><div class="info-icon">✦</div><div><div class="info-label">نامی که صدام می‌کنن</div><div class="info-value" data-profile="nickname">سوشا</div></div></article>
+  <article class="info-card"><div class="info-icon">♙</div><div><div class="info-label">اسم اصلی</div><div class="info-value" data-profile="realname">آرسین</div></div></article>
+  <article class="info-card"><div class="info-icon">⌖</div><div><div class="info-label">مالِ</div><div class="info-value" data-profile="origin">ایذم</div></div></article>
+  <article class="info-card"><div class="info-icon">⌂</div><div><div class="info-label">الان کجام؟</div><div class="info-value" data-profile="city">شیرازم</div></div></article>
+  <article class="info-card"><div class="info-icon">◷</div><div><div class="info-label">سن</div><div class="info-value" data-profile="age">۱۹ سال</div></div></article>
+  <article class="info-card"><div class="info-icon">♡</div><div><div class="info-label">کراشم</div><div class="info-value" data-profile="crush">رز 🌹</div></div></article>
+  <article class="info-card"><div class="info-icon">♥</div><div><div class="info-label">زنم</div><div class="info-value" data-profile="partner">امیر ❤️</div></div></article>
+ </section>
+
+ <section class="accounts-panel" id="accountsPanel" hidden>
+  <h3>فهرست شماره‌های ثبت‌شده</h3>
+  <p class="accounts-help">شماره تمام حساب‌های ثبت‌نام‌شده روی سرور اینجا نمایش داده می‌شود. رمز کاربران به‌صورت امن هش می‌شود و قابل مشاهده نیست.</p>
+  <div id="accountsList"></div>
+ </section>
+
+ <p class="bottom-note">ساخته‌شده برای من، با حال‌وهوای آبی و آرامش‌بخش ✦</p>
+</main>
+
+<div id="adminGate" class="admin-gate" hidden>
+ <div class="admin-dialog">
+  <button type="button" class="admin-x" id="adminGateClose">×</button>
+  <div class="admin-lock">🔐</div>
+  <h2>ورود مدیریت</h2>
+  <p>برای دیدن فهرست حساب‌ها، رمز مدیریت را وارد کن.</p>
+  <input id="adminPassword" type="password" placeholder="رمز مدیریت" autocomplete="off">
+  <div id="adminError" class="admin-error"></div>
+  <button type="button" class="save-btn admin-enter" id="adminEnter">ورود به مدیریت</button>
+ </div>
+</div>
+
+
+<script>
+const authScreen=document.getElementById('authScreen');
+const loadingScreen=document.getElementById('loadingScreen');
+const profileScreen=document.getElementById('profileScreen');
+const form=document.getElementById('loginForm');
+const errorBox=document.getElementById('error');
+
+function showProfile(){
+ authScreen.hidden=true;
+ loadingScreen.hidden=true;
+ profileScreen.hidden=false;
+}
+function startLogin(){
+ authScreen.hidden=true;
+ loadingScreen.hidden=false;
+ profileScreen.hidden=true;
+ window.setTimeout(showProfile,5000);
+}
+form.addEventListener('submit',async function(event){
+ event.preventDefault();
+ const phone=document.getElementById('phone').value.trim();
+ const password=document.getElementById('password').value;
+ if(!phone || !password){errorBox.textContent='لطفاً هر دو قسمت رو کامل کن.';return;}
+ if(password.length<8){errorBox.textContent='رمز عبور باید حداقل ۸ کاراکتر باشد.';return;}
+ errorBox.textContent='در حال ارتباط با سرور...';
+ try{
+  const response=await fetch('/api/auth/register-or-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone,password})});
+  const result=await response.json();
+  if(!response.ok) throw new Error(result.error||'ورود انجام نشد.');
+  errorBox.textContent='';
+  startLogin();
+ }catch(error){
+  errorBox.textContent=error.message==='Failed to fetch'?'سرور در دسترس نیست؛ سایت باید روی سرور Node.js اجرا شود.':error.message;
+ }
+});
+
+const profileDefaults={
+ nickname:'سوشا', realname:'آرسین', origin:'ایذم', city:'شیرازم',
+ age:'۱۹', crush:'رز 🌹', partner:'امیر ❤️'
+};
+const fieldIds={
+ nickname:'editNickname', realname:'editRealname', origin:'editOrigin',
+ city:'editCity', age:'editAge', crush:'editCrush', partner:'editPartner'
+};
+const managePanel=document.getElementById('managePanel');
+const manageMessage=document.getElementById('manageMessage');
+function applyProfile(data){
+ Object.keys(fieldIds).forEach(key=>{
+  const field=document.getElementById(fieldIds[key]);
+  if(field) field.value=data[key] ?? profileDefaults[key];
+  const target=document.querySelector('[data-profile="'+key+'"]');
+  if(target) target.textContent=key==='age' ? (data[key] ?? profileDefaults[key])+' سال' : (data[key] ?? profileDefaults[key]);
+ });
+}
+function readProfile(){
+ const data={};
+ Object.keys(fieldIds).forEach(key=>data[key]=document.getElementById(fieldIds[key]).value.trim());
+ return data;
+}
+document.getElementById('manageOpen').addEventListener('click',()=>{
+ document.getElementById('adminGate').hidden=false;
+ document.getElementById('adminPassword').value='';
+ document.getElementById('adminError').textContent='';
+ document.getElementById('adminPassword').focus();
+});
+document.getElementById('manageClose').addEventListener('click',()=>managePanel.hidden=true);
+document.getElementById('saveProfile').addEventListener('click',()=>{
+ const data=readProfile();
+ try{localStorage.setItem('manProfileData',JSON.stringify(data));}catch(e){}
+ applyProfile(data);
+ manageMessage.textContent='تغییرات ذخیره شد ✓';
+});
+document.getElementById('resetProfile').addEventListener('click',()=>{
+ try{localStorage.removeItem('manProfileData');}catch(e){}
+ applyProfile(profileDefaults);
+ manageMessage.textContent='اطلاعات اولیه بازگردانی شد.';
+});
+try{
+ const saved=localStorage.getItem('manProfileData');
+ if(saved) applyProfile({...profileDefaults,...JSON.parse(saved)});
+}catch(e){}
+
+
+const adminGate=document.getElementById('adminGate');
+const accountsPanel=document.getElementById('accountsPanel');
+function renderAccounts(accounts){
+ const holder=document.getElementById('accountsList');
+ if(!accounts.length){holder.innerHTML='<div class="empty-accounts">هنوز حسابی ثبت‌نام نکرده است.</div>';return;}
+ holder.innerHTML=accounts.map(a=>'<div class="account-row"><span class="account-phone"></span><span class="account-state"></span></div>').join('');
+ holder.querySelectorAll('.account-row').forEach((row,i)=>{
+  row.querySelector('.account-phone').textContent=accounts[i].phone;
+  row.querySelector('.account-state').textContent='ثبت‌نام: '+new Date(accounts[i].createdAt).toLocaleDateString('fa-IR');
+ });
+}
+document.getElementById('adminGateClose').addEventListener('click',()=>adminGate.hidden=true);
+document.getElementById('adminEnter').addEventListener('click',async()=>{
+ const entered=document.getElementById('adminPassword').value;
+ const err=document.getElementById('adminError'); err.textContent='در حال بررسی...';
+ try{
+  const response=await fetch('/api/admin/accounts',{headers:{'x-admin-password':entered}});
+  const result=await response.json();
+  if(!response.ok) throw new Error(result.error||'رمز مدیریت اشتباه است.');
+  adminGate.hidden=true; accountsPanel.hidden=false; managePanel.hidden=false;
+  renderAccounts(result.accounts||[]);
+  managePanel.scrollIntoView({behavior:'smooth',block:'start'});
+ }catch(error){err.textContent=error.message==='Failed to fetch'?'سرور در دسترس نیست.':error.message;}
+});
+document.getElementById('adminPassword').addEventListener('keydown',e=>{
+ if(e.key==='Enter') document.getElementById('adminEnter').click();
+});
+
+</script>
+</body>
+</html>
